@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  blog-app:
+    build: .
+    container_name: blog-app
+    image: blog-app
+    ports:
+      - '5000:5000'
+    environment:
+      - FLASK_DEBUG=0
+      - FLASK_APP=app.py
+      - REDIS_URL=redis://redis:6379/0
+    restart: unless-stopped
+    links:
+      - redis
+      - db
+    depends_on:
+      - db
+      - redis
+    networks:
+      - blog_network
+
+  db:
+    image: mysql:8.0.31
+    restart: unless-stopped
+    container_name: db
+    ports:
+      - '3306:3306'
+    volumes:
+      - /home/jason/Projects/data/db/mysql:/var/lib/mysql
+    networks:
+      - blog_network
+
+  redis:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - /home/jason/Projects/data/cache:/data
+    networks:
+      - blog_network
+
+  web-server:
+    image: nginx:1.23.3-alpine
+    container_name: web-server
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - /home/jason/Projects/data/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - blog_network
+
+networks:
+  blog_network:
+      name: flask-blog_default

@@ -1,0 +1,3 @@
+/.idea/
+*/__pycache__
+/ui-vue3/node_modules
