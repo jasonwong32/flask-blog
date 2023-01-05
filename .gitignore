@@ -1,3 +1,4 @@
 /.idea/
+/__pycache__/
 */__pycache__
 /ui-vue3/node_modules
