@@ -16,7 +16,9 @@
     "up": "npx npm-check-updates -u"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "axios": "^1.2.1",
+    "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "bootstrap-vue-3": "^0.4.15",
     "path": "^0.12.7",
