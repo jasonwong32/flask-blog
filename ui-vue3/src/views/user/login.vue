@@ -4,19 +4,23 @@
       <div class="col-md-8 col-xs-36 col-sm-36 login_form">
         <div class="container-fluid">
           <form class="form-signin form__input">
-            <img class="mb-4" src="../../assets/img/cut-logo.png" alt=""
+            <img class="mb-4" src="../../assets/img/cut-logo.png" alt="blog logo"
                  width="523"
                  height="133"
-                >
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            />
             <b-form-group
               label="Email:"
               class="text-left"
+              label-cols-sm="2"
+              label-cols-lg="2"
+              content-cols-sm
+              content-cols-lg="10"
             >
-              <b-form-input type="text" id="inputUsername"
+              <b-form-input type="text" id="inputEmail"
                             class="form-control"
-                            placeholder="Enter Username"
-                            v-model="loginData.username"
+                            placeholder="Enter Email"
+                            v-model="loginData.email"
+                            :invalid-feedback="schema"
                             required autofocus>
               </b-form-input>
             </b-form-group>
@@ -24,6 +28,10 @@
             <b-form-group
               label="Password:"
               class="text-left"
+              label-cols-sm="2"
+              label-cols-lg="2"
+              content-cols-sm
+              content-cols-lg="10"
             >
               <b-form-input type="password" id="inputPassword"
                             class="form-control"
@@ -142,13 +150,13 @@ form {
   padding: 0 2em;
 }
 
+
 .form__input {
   width: 70%;
   border: 1px solid transparent;
   border-radius: 0;
   border-bottom: 1px solid #aaa;
-  padding: 1em .5em .5em;
-  padding-left: 2em;
+  padding: 1em .5em .5em 2em;
   outline: none;
   margin: 1.5em auto;
   /*margin-left: 4em;*/
@@ -160,18 +168,18 @@ form {
   transition: all .5s ease;
   width: 60%;
   border-radius: 30px;
-  color: red;
+  color: #61777F;
   font-weight: 600;
-  background-color: #fff;
-  border: 1px solid red;
+  background-color: white;
+  border: 1px solid #61777F;
   margin-top: 1.5em;
   margin-bottom: 1em;
-  margin-left: 4.5em;
+  margin-left: 1em;
 }
 
 .btn:hover, .btn:focus {
-  background-color: red;
-  color: #fff;
+  background-color: #61777F;
+  color: white;
 }
 
 
