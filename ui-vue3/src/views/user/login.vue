@@ -41,6 +41,7 @@
               >
               </b-form-input>
             </b-form-group>
+            <router-link to="/user/reset/password">forget password</router-link>
             <div class="center-block">
               <button class="btn btn-lg btn-primary btn-block" type="button"
                       @click="onSubmit">Sign in
@@ -137,6 +138,11 @@ export default defineComponent({
   display: flex;
 }
 
+b-link{
+  font-size: large;
+  padding: 1em .5em .5em 1em;
+  margin-left: 1em;
+}
 
 .login_form {
   background-color: #fff;
