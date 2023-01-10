@@ -32,6 +32,22 @@ const routes: RouteRecordRaw[] = [
       title: 'Welcome sign up',
     },
   },
+  {
+    path: '/user/reset/password',
+    name: 'reset',
+    component: () => import('@views/user/resetpasswd.vue'),
+    meta: {
+      title: 'Reset password',
+    },
+  },
+  {
+    path: '/user/signup/success',
+    name: 'signupsuccess',
+    component:()=>import('@views/user/signupsuccess.vue'),
+    meta: {
+      title: 'Signup successful',
+    }
+  }
 ]
 
 export default routes

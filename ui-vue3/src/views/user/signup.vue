@@ -73,9 +73,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
+import axiosInstance from "@/config";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+
+interface SignupData {
+  email: string,
+  password: string,
+  confirmPassword: string,
+  firstName: string,
+  lastName: string,
+  gender: boolean,
+  birthDate: string
+}
 
 export default {
   name: "signup",
@@ -83,6 +96,7 @@ export default {
     Form,
     Field
   },
+
   setup() {
     const schema = Yup.object().shape({
       dob: Yup.string()
@@ -100,9 +114,33 @@ export default {
       acceptTerms: Yup.string()
         .required("Accept Ts & Cs is required")
     });
+    const signupData: SignupData = reactive({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      gender: true,
+      birthDate: ""
+    });
+    const router = useRouter();
+
+    async function onSubmit() {
+      axiosInstance.post("/api/v1/user/signup", signupData).then(response => {
+        if (response.status === 201) {
+          router.push({
+            name: "signupsuccess"
+          });
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+    }
 
     return {
-      schema
+      schema,
+      signupData,
+      onSubmit
     };
   }
 };
