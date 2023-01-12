@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import Blueprint, request, jsonify, abort, render_template
 from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.security import check_password_hash,generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask_jwt_extended import create_access_token
 from sqlalchemy.exc import IntegrityError
 from api.user import utility
@@ -28,6 +28,13 @@ def signup():
         confirmed=False,
         registered_on=datetime.now()
     )
+
+    if data['firstName']:
+        user.first_name = data['firstName']
+    if data['lastName']:
+        user.last_name = data['lastName']
+    if data['birthDate']:
+        user.birthdate = datetime.strptime(data['birthDate'], 'yyyy/mm/dd')
 
     try:
         db.session.add(user)
