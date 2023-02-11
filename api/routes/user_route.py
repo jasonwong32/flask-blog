@@ -22,6 +22,7 @@ def signup():
         return jsonify({'message': 'empty password is not allowed'}), 400
     if User.query.filter_by(email=data['email']).first():
         return jsonify({'message': 'email address has been used'}), 400
+
     user = User(
         email=data['email'],
         password=generate_password_hash(data['password']),
@@ -34,7 +35,11 @@ def signup():
     if data['lastName']:
         user.last_name = data['lastName']
     if data['birthDate']:
-        user.birthdate = datetime.strptime(data['birthDate'], 'yyyy/mm/dd')
+        try:
+            user.birthdate = datetime.strptime(data['birthDate'], '%Y/%m/%d')
+        except ValueError as err:
+            return jsonify({'status': 'error',
+                            'message': str(err)}), 400
 
     try:
         db.session.add(user)
@@ -48,8 +53,8 @@ def signup():
     confirm_url = utility.generate_url('user.confirm_email', token)
     html = render_template('user/activate.html', confirm_url=confirm_url)
     subject = 'Please confirm your email'
-    # utility.send_mail(data['email'], subject, html)
-    redis_queue.enqueue(utility.send_mail, data['email'], subject, html)
+    utility.send_mail(data['email'], subject, html)
+    # redis_queue.enqueue(utility.send_mail, data['email'], subject, html)
 
     return {'message': 'email sent'}, 200
 
@@ -72,8 +77,8 @@ def confirm_email(token):
         db.session.add(user)
         db.session.commit()
 
-    return jsonify({'status': 'confirmed',
-                    'message': 'You have confirmed your account. Thanks!'}), 200
+    message = 'You have confirmed your account. Thanks!'
+    return render_template('user/confirmed.html', message=message)
 
 
 @user_blueprint.route('/api/v1/user/login', methods=['POST'])
